@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CourseAI Agent</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>CourseAI</h1>
+      <span class="status" id="connectionStatus">Disconnected</span>
+    </div>
+
+    <div class="transcript-simulation">
+      <h3>Simulate Live Transcript</h3>
+      <textarea id="transcriptInput" placeholder="Type what the teacher is saying... (e.g., 'Today we will discuss the Transformer architecture.')"></textarea>
+      <button id="sendBtn">Send Segment</button>
+    </div>
+
+    <div class="agent-feed" id="feed">
+      <!-- Agent responses will appear here -->
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
