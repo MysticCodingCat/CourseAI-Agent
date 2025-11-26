@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>CourseAI 智慧學習助理</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>CourseAI 智慧學習助理</h1>
+      <div class="status-container">
+        <span id="connectionStatus" class="status">未連線</span>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="left-panel">
+        <div class="control-panel">
+          <h3>即時課堂語音轉錄</h3>
+          <div class="controls">
+            <button id="startBtn" class="record-btn">開始錄音</button>
+            <button id="stopBtn" class="stop-btn" disabled>停止</button>
+          </div>
+          <div id="statusIndicator" class="listening-status">準備就緒</div>
+        </div>
+        
+        <div class="transcript-box">
+          <textarea id="transcriptInput" placeholder="即時轉錄內容將顯示於此..." readonly></textarea>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <h3>AI 蘇格拉底導師</h3>
+        <div class="agent-feed" id="feed">
+          <!-- AI 回應卡片將顯示於此 -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

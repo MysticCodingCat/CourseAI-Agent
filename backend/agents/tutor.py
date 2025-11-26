@@ -1,21 +1,45 @@
 from .base import BaseAgent
+from .prompts import TUTOR_SOCRATIC_PROMPT
 from typing import Dict, Any
+import json
+import re
 
 class TutorAgent(BaseAgent):
     def __init__(self):
         super().__init__(name="Tutor")
 
     async def process(self, context: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Generates a Socratic question based on the concept being discussed.
-        """
-        concept = context.get("retrieval_results", [{}])[0].get("keyword", "unknown topic")
+        results = context.get("retrieval_results", [])
+        if not results:
+            return {"error": "No context"}
+
+        knowledge_info = results[0].get("info", "")
+        topic = results[0].get("keyword", "")
         
-        # Real implementation: Prompt LLM to generate a question
-        question = f"Why do you think {concept} is important in this context?"
+        prompt = f"Current Topic: {topic}\nContext: {knowledge_info}"
         
-        return {
-            "type": "socratic_question",
-            "content": question,
-            "options": ["Option A", "Option B"] # Optional for quiz mode
-        }
+        llm_response = await self.call_llm(prompt, system_prompt=TUTOR_SOCRATIC_PROMPT)
+        
+        try:
+            cleaned_response = self._clean_json_string(llm_response)
+            data = json.loads(cleaned_response)
+            
+            return {
+                "type": "socratic_question",
+                "content": data.get("question"),
+                "hint": data.get("hint"),
+                "difficulty": data.get("difficulty")
+            }
+        except Exception as e:
+             print(f"[Tutor] JSON Parse Error: {e}. Raw: {llm_response}")
+             # Fallback if JSON fails
+             return {
+                 "type": "socratic_question",
+                 "content": f"Could you explain {topic} in your own words?",
+                 "hint": "Think about its definition."
+             }
+
+    def _clean_json_string(self, s: str) -> str:
+        s = re.sub(r"```json\s*", "", s)
+        s = re.sub(r"```", "", s)
+        return s.strip()

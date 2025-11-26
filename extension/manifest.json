@@ -12,9 +12,7 @@
     "https://meet.google.com/*",
     "http://localhost:8000/*"
   ],
-  "action": {
-    "default_popup": "popup.html"
-  },
+  "action": {},
   "background": {
     "service_worker": "background.js"
   }
