@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "CourseAI: AMD Powered Learning Assistant",
+  "version": "1.0",
+  "description": "Real-time Socratic Tutor for Google Meet powered by AMD Instinct MI300X.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://meet.google.com/*",
+    "http://localhost:8000/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
