@@ -7,7 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
   setupSpeechRecognition();
 
   document.getElementById('startBtn').addEventListener('click', startRecording);
-  document.getElementById('stopBtn').addEventListener('click', stopRecording);
+      document.getElementById('stopBtn').addEventListener('click', stopRecording);
+  document.getElementById('closeNotesBtn').addEventListener('click', () => {
+    document.getElementById('notesModal').style.display = 'none';
+  });
 });
 
 function setupSpeechRecognition() {
@@ -36,8 +39,6 @@ function setupSpeechRecognition() {
       if (finalTranscript) {
           display.value += finalTranscript + '\n';
       }
-      // Interim text could be handled differently, but for simple display:
-      // display.value = display.value + interimTranscript; 
       display.scrollTop = display.scrollHeight;
     };
 
@@ -50,7 +51,7 @@ function setupSpeechRecognition() {
       if (isRecording) {
         recognition.start();
       } else {
-        updateStatus("已停止");
+        // updateStatus("已停止"); // Handled by stop button
       }
     };
   } else {
@@ -69,15 +70,48 @@ function startRecording() {
 }
 
 function stopRecording() {
-  if (recognition && isRecording) {
-    isRecording = false;
-    recognition.stop();
-    document.getElementById('startBtn').disabled = false;
-    document.getElementById('stopBtn').disabled = true;
-    updateStatus("已停止");
+    if (recognition && isRecording) {
+      isRecording = false;
+      recognition.stop();
+      document.getElementById('startBtn').disabled = false;
+      document.getElementById('stopBtn').disabled = true;
+      updateStatus("已停止，正在生成講義...");
+      
+      generateLectureNotes(); // Call generation
+    }
   }
-}
-
+  
+  async function generateLectureNotes() {
+    try {
+      // Show Modal with Loading
+      const modal = document.getElementById('notesModal');
+      const body = document.getElementById('notesBody');
+      modal.style.display = 'flex';
+      body.innerHTML = '<div style="text-align:center; padding: 20px;">正在整理筆記，請稍候...<br>(AI 正在分析整堂課的內容)</div>';
+  
+      const response = await fetch('http://localhost:8000/generate_notes', {
+        method: 'POST'
+      });
+      
+      const data = await response.json();
+      const markdown = data.notes;
+      
+          // Parse Markdown to HTML
+          if (typeof SimpleMarkdown !== 'undefined') {
+              body.innerHTML = SimpleMarkdown.parse(markdown);
+          } else {
+              // Fallback
+              body.innerHTML = `<pre>${markdown}</pre>`;
+          }      
+      updateStatus("講義生成完畢");
+      
+    } catch (e) {
+      console.error("Failed to generate notes:", e);
+      document.getElementById('notesBody').innerHTML = "生成失敗，請檢查後端連線。";
+      updateStatus("生成失敗");
+    }
+  }
+  
 function updateStatus(msg) {
   document.getElementById('statusIndicator').textContent = msg;
 }
