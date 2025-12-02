@@ -4,5 +4,19 @@ requests
 pydantic
 python-multipart
 openai
-google-generativeai
+# google-generativeai  # GEMINI FALLBACK - Commented out, using GPT-OSS-120B
 python-dotenv
+websockets
+
+# GraphRAG Dependencies
+pymupdf  # PDF parsing (better than PyPDF2)
+sentence-transformers  # Text embeddings
+faiss-cpu  # Vector search
+networkx  # Knowledge graph
+numpy
+scikit-learn
+
+# PPT & Web Search Dependencies
+python-pptx  # PowerPoint parsing
+beautifulsoup4  # HTML parsing
+lxml  # BeautifulSoup parser
