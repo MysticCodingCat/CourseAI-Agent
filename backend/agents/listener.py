@@ -41,7 +41,10 @@ class ListenerAgent(BaseAgent):
             return {"status": "passive", "action": "error"}
 
     def _clean_json_string(self, s: str) -> str:
-        """Removes markdown code blocks to extract raw JSON string."""
+        """Removes markdown code blocks and GPT-OSS prefixes to extract raw JSON string."""
+        # Remove GPT-OSS-120B's analysis/assistantfinal prefixes
+        s = re.sub(r"^.*?assistantfinal", "", s, flags=re.DOTALL)
+        # Remove markdown code blocks
         s = re.sub(r"```json\s*", "", s)
         s = re.sub(r"```", "", s)
         return s.strip()

@@ -1,13 +1,11 @@
 from .base import BaseAgent
 from .prompts import NOTETAKER_PROMPT
 from typing import Dict, Any
-import google.generativeai as genai
 
 class NoteTakerAgent(BaseAgent):
     def __init__(self):
         super().__init__(name="NoteTaker")
-        # Use a model with larger context window if available, but Flash is good for speed
-        self.model = genai.GenerativeModel('models/gemini-2.5-flash')
+        # Inherits GPT-OSS-120B configuration from BaseAgent
 
     async def process(self, full_transcript: str) -> str:
         """
