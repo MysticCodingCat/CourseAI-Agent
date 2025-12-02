@@ -2,31 +2,46 @@
 
 **Last Updated:** 2025-11-26
 **Current Phase:** Phase 1 - Core Development (Mid-stage)
+**Team:** Team1 (CourseAI)
 
-## ✅ Completed Features
-1.  **Backend (FastAPI):**
-    *   Multi-Agent Architecture (Listener, Knowledge, Tutor, NoteTaker).
-    *   WebSocket streaming for real-time transcription.
-    *   Integration with **Gemini 2.5 Flash API** (via `google-generativeai`).
-    *   Prompt Engineering: English logic + Traditional Chinese output.
-    *   Session memory (`transcript_history`) for lecture summarization.
-2.  **Frontend (Chrome Extension):**
-    *   **Manifest V3** compliant (Side Panel / Full Page style).
-    *   **Web Speech API** for real-time Chinese speech-to-text.
-    *   **UI/UX:** Recording controls, Real-time Insight Cards, Markdown-rendered Lecture Notes Modal.
-    *   **Local Markdown Parsing:** Removed CDN dependency for CSP compliance.
+## 🟢 1. Completed Features (已完成)
 
-## 🚧 Current Focus: RAG Implementation
-The next immediate task is to implement **PDF Upload & Retrieval Augmented Generation (RAG)**.
+### Backend (Python / FastAPI)
+*   **Multi-Agent Architecture:** Implemented `Listener`, `Knowledge`, `Tutor`, and `NoteTaker` agents.
+*   **LLM Integration:** Successfully connected to **Gemini 2.5 Flash** for logic and generation.
+*   **Prompt Engineering:** Hybrid strategy (English instructions for logic, Traditional Chinese for user-facing output).
+*   **Real-time Streaming:** WebSocket endpoint (`/ws/transcription`) for low-latency audio text processing.
+*   **Session Memory:** In-memory storage of full lecture transcripts for summarization.
 
-## 📋 Next Steps (To-Do)
-1.  **Backend:** Implement `/upload_pdf` endpoint.
-    *   Library: `PyPDF2` or `pdfminer`.
-    *   Logic: Extract text, chunk it, and store in a simple vector store (or in-memory list for MVP).
-2.  **Agent Logic:** Update `KnowledgeAgent` and `NoteTakerAgent` to query the uploaded PDF content instead of hallucinating/using internal knowledge.
-3.  **Frontend:** Add a "Upload PDF" button in the UI.
+### Frontend (Chrome Extension / Manifest V3)
+*   **Full Page UI:** Switched from Popup to Side Panel/Tab interface for stable recording.
+*   **Speech-to-Text:** Integrated **Web Speech API** with `cmn-Hant-TW` (Taiwanese Mandarin) support.
+*   **Real-time Interaction:** Displays "Insight Cards" (Concept + Socratic Question) dynamically.
+*   **Lecture Notes Generation:** Implemented a "Stop & Generate" workflow that produces structured Markdown notes.
+*   **Local Rendering:** Custom lightweight Markdown parser (`simple-markdown.js`) to comply with CSP security rules.
+
+## 🟡 2. In Progress / Next Priority (待辦事項)
+
+### 核心技術補完 (Must-Haves)
+1.  **RAG (Retrieval-Augmented Generation) Implementation:**
+    *   [ ] Endpoint: `/upload_pdf`
+    *   [ ] Logic: Parse PDF -> Chunking -> Vector Embedding -> Retrieval.
+    *   [ ] Goal: Stop the agents from hallucinating; ground them in the uploaded slides.
+2.  **Critic Agent (Fact Checking):**
+    *   [ ] Logic: Detect controversial statements and cross-reference with knowledge base.
+
+## 🚀 3. Technical Innovations (The "Winning" Features)
+*See `TECHNICAL_HIGHLIGHTS.md` for details.*
+1.  **GraphRAG (Dynamic Knowledge Graph Construction)** - *Beyond simple vector search.*
+2.  **Multimodal Late Fusion (Visual-Audio Alignment)** - *Agent "sees" the slides.*
+3.  **Hierarchical Context Compression** - *Handling 2-hour lectures efficiently.*
 
 ## 🛠️ Environment Setup
 *   **Root:** `C:\Users\aano5\Desktop\claude_api\AMD AI Agent Online Hackathon\CourseAI-Agent`
-*   **Backend:** `cd backend` -> `venv\Scripts\activate` -> `uvicorn app.main:app --reload`
-*   **Frontend:** Load unpacked from `extension/` directory.
+*   **Backend:**
+    ```powershell
+    cd backend
+    venv\Scripts\activate
+    uvicorn app.main:app --reload
+    ```
+*   **Frontend:** Load unpacked from `extension/` directory in `chrome://extensions`.
