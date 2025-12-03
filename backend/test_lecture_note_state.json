@@ -1,0 +1,135 @@
+{
+  "title": "深度學習基礎",
+  "chapters": [
+    {
+      "title": "第一章：卷積神經網路",
+      "slides": [
+        {
+          "slide_number": 1,
+          "title": "什麼是 CNN？",
+          "slide_type": "content",
+          "content_filled": false,
+          "fill_timestamp": null,
+          "questions_asked": [
+            "CNN 的全名是什麼？"
+          ]
+        },
+        {
+          "slide_number": 2,
+          "title": "卷積層",
+          "slide_type": "content",
+          "content_filled": false,
+          "fill_timestamp": null,
+          "questions_asked": []
+        }
+      ],
+      "qa_section": [
+        {
+          "question": "CNN 的全名是什麼？",
+          "answer": "CNN 的全名是 Convolutional Neural Network（卷積神經網路）。",
+          "concept": "CNN",
+          "slide_number": 1,
+          "chapter_index": 0,
+          "timestamp": "2025-12-03T18:34:10.832364"
+        }
+      ],
+      "supplementary": [
+        {
+          "concept": "卷積層運作原理",
+          "explanation": "卷積層使用可學習的濾波器在輸入上滑動，提取局部特徵。",
+          "source": "web_search",
+          "slide_number": 2,
+          "chapter_index": 0,
+          "timestamp": "2025-12-03T18:34:10.832364"
+        }
+      ]
+    },
+    {
+      "title": "第二章：正則化技術",
+      "slides": [
+        {
+          "slide_number": 3,
+          "title": "Dropout",
+          "slide_type": "content",
+          "content_filled": false,
+          "fill_timestamp": null,
+          "questions_asked": [
+            "Dropout 的作用是什麼？"
+          ]
+        },
+        {
+          "slide_number": 4,
+          "title": "批次標準化",
+          "slide_type": "content",
+          "content_filled": false,
+          "fill_timestamp": null,
+          "questions_asked": []
+        }
+      ],
+      "qa_section": [
+        {
+          "question": "Dropout 的作用是什麼？",
+          "answer": "Dropout 是一種正則化技術，隨機丟棄神經元以防止過擬合。",
+          "concept": "Dropout",
+          "slide_number": 3,
+          "chapter_index": 1,
+          "timestamp": "2025-12-03T18:34:10.832364"
+        }
+      ],
+      "supplementary": []
+    }
+  ],
+  "qa_pairs": [
+    {
+      "question": "CNN 的全名是什麼？",
+      "answer": "CNN 的全名是 Convolutional Neural Network（卷積神經網路）。",
+      "concept": "CNN",
+      "slide_number": 1,
+      "chapter_index": 0,
+      "timestamp": "2025-12-03T18:34:10.832364"
+    },
+    {
+      "question": "Dropout 的作用是什麼？",
+      "answer": "Dropout 是一種正則化技術，隨機丟棄神經元以防止過擬合。",
+      "concept": "Dropout",
+      "slide_number": 3,
+      "chapter_index": 1,
+      "timestamp": "2025-12-03T18:34:10.832364"
+    }
+  ],
+  "concept_explanations": [
+    {
+      "concept": "卷積層運作原理",
+      "explanation": "卷積層使用可學習的濾波器在輸入上滑動，提取局部特徵。",
+      "source": "web_search",
+      "slide_number": 2,
+      "chapter_index": 0,
+      "timestamp": "2025-12-03T18:34:10.832364"
+    }
+  ],
+  "timestamps": [
+    {
+      "slide_number": 1,
+      "timestamp": "2025-12-03T18:34:10.832364",
+      "event": "slide_changed"
+    },
+    {
+      "slide_number": 2,
+      "timestamp": "2025-12-03T18:34:10.832364",
+      "event": "slide_changed"
+    },
+    {
+      "slide_number": 3,
+      "timestamp": "2025-12-03T18:34:10.832364",
+      "event": "slide_changed"
+    }
+  ],
+  "current_chapter_index": 1,
+  "current_slide_number": 3,
+  "metadata": {
+    "course_id": "deep_learning_101",
+    "session_id": "2025-12-03-14:00",
+    "created_at": "2025-12-03T18:34:10.832364",
+    "last_updated": "2025-12-03T18:34:10.832364"
+  }
+}
