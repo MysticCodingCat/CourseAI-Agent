@@ -1,0 +1,47 @@
+{
+  "nodes": [
+    {
+      "id": "深度學習",
+      "label": "深度學習"
+    },
+    {
+      "id": "CNN",
+      "label": "CNN"
+    },
+    {
+      "id": "卷積層",
+      "label": "卷積層"
+    },
+    {
+      "id": "池化層",
+      "label": "池化層"
+    },
+    {
+      "id": "全連接層",
+      "label": "全連接層"
+    }
+  ],
+  "edges": [
+    {
+      "from": "深度學習",
+      "to": "CNN",
+      "relation": "包含"
+    },
+    {
+      "from": "CNN",
+      "to": "卷積層",
+      "relation": "組成部分"
+    },
+    {
+      "from": "CNN",
+      "to": "池化層",
+      "relation": "組成部分"
+    },
+    {
+      "from": "CNN",
+      "to": "全連接層",
+      "relation": "組成部分"
+    }
+  ],
+  "metadata": {}
+}

@@ -1,0 +1,13 @@
+digraph ConceptMap {
+  rankdir=LR;
+  node [shape=box, style=rounded];
+  "深度學習";
+  "CNN";
+  "卷積層";
+  "池化層";
+  "全連接層";
+  "深度學習" -> "CNN" [label="包含"];
+  "CNN" -> "卷積層" [label="組成部分"];
+  "CNN" -> "池化層" [label="組成部分"];
+  "CNN" -> "全連接層" [label="組成部分"];
+}
