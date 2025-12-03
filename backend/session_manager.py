@@ -241,6 +241,73 @@ class CourseSession:
         """
         return self.student_trackers.get(student_id)
 
+    def get_class_statistics(self) -> Dict[str, Any]:
+        """
+        全班統計分析
+
+        分析整個班級的學習表現，找出全班普遍較弱的概念
+        （不做複雜的個人分析，只做班級層級的統計）
+
+        Returns:
+            班級統計資料，包括：
+            - weak_concepts: 全班表現較差的概念列表
+            - total_concepts: 總共出現的概念數
+            - class_average: 全班整體平均記憶強度
+        """
+        if not self.is_active:
+            raise RuntimeError("會話未啟動")
+
+        # 收集所有概念的記憶強度
+        concept_scores = {}  # concept -> [strengths from all students]
+
+        for student_id, tracker in self.student_trackers.items():
+            progress = tracker.get_learning_progress()
+
+            for concept in progress["concepts"]:
+                concept_name = concept["name"]
+                memory_strength = concept["memory_strength"]
+
+                if concept_name not in concept_scores:
+                    concept_scores[concept_name] = []
+
+                concept_scores[concept_name].append(memory_strength)
+
+        # 計算每個概念的班級平均
+        concept_stats = []
+
+        for concept_name, strengths in concept_scores.items():
+            class_avg = sum(strengths) / len(strengths)
+
+            concept_stats.append({
+                "concept": concept_name,
+                "class_average": class_avg,
+                "student_count": len(strengths),
+                "min": min(strengths),
+                "max": max(strengths)
+            })
+
+        # 找出全班較弱的概念（平均 < 0.4）
+        weak_concepts = [
+            stat for stat in concept_stats
+            if stat["class_average"] < 0.4
+        ]
+
+        # 按平均分數排序（最弱的在前面）
+        weak_concepts.sort(key=lambda x: x["class_average"])
+
+        # 計算全班整體平均
+        if concept_stats:
+            overall_avg = sum(stat["class_average"] for stat in concept_stats) / len(concept_stats)
+        else:
+            overall_avg = 0.0
+
+        return {
+            "weak_concepts": weak_concepts,
+            "total_concepts": len(concept_stats),
+            "class_average": overall_avg,
+            "student_count": len(self.student_trackers)
+        }
+
     def _estimate_memory_usage(self) -> Dict[str, float]:
         """
         估算記憶體使用量（MB）
@@ -315,6 +382,27 @@ def test_session_manager():
     print("\n學生 003 答題：Dropout")
     result = session.update_student_memory("student_003", "Dropout", score=5)
     print(f"  記憶強度: {result['new_strength']:.2f}")
+
+    # 模擬更多答題（讓統計更有意義）
+    print("\n模擬更多答題...")
+    session.update_student_memory("student_001", "反向傳播", score=2)  # 較弱
+    session.update_student_memory("student_002", "反向傳播", score=3)  # 較弱
+    session.update_student_memory("student_003", "反向傳播", score=2)  # 較弱
+    session.update_student_memory("student_001", "Dropout", score=4)
+    session.update_student_memory("student_002", "Dropout", score=5)
+
+    # 查看班級統計
+    print("\n班級統計分析：")
+    class_stats = session.get_class_statistics()
+    print(f"  總概念數: {class_stats['total_concepts']}")
+    print(f"  全班平均記憶強度: {class_stats['class_average']:.2f}")
+    print(f"  全班較弱的概念數: {len(class_stats['weak_concepts'])}")
+
+    if class_stats['weak_concepts']:
+        print("\n  全班表現較弱的概念：")
+        for weak in class_stats['weak_concepts'][:3]:  # 顯示前 3 個
+            print(f"    - {weak['concept']}: 平均 {weak['class_average']:.2f} "
+                  f"({weak['student_count']} 位學生)")
 
     # 查看會話資訊
     print("\n會話資訊：")
