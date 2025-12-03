@@ -17,6 +17,7 @@ numpy
 scikit-learn
 
 # PPT & Web Search Dependencies
-python-pptx  # PowerPoint parsing
+# python-pptx  # PowerPoint parsing (replaced by markitdown)
+markitdown  # Microsoft's document-to-markdown converter (PPT, PDF, Word, Excel, Images, Audio)
 beautifulsoup4  # HTML parsing
 lxml  # BeautifulSoup parser
